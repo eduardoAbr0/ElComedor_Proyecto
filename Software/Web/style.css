@@ -1,0 +1,93 @@
+/*Opciones generales para aplicar en todo el ambiente*/
+
+* {
+  font-family: "Merriweather Sans", sans-serif;
+}
+
+body {
+  background-color: #ffd791;
+}
+
+/*Manipulacion para el header y sus respectivos elementos en este*/
+header {
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.MenuOpciones {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 1% 5%;
+}
+.MenuOpciones nav {
+  width: 25%;
+}
+.MenuOpciones nav a,
+.MenuOpciones a {
+  position: relative;
+  padding: 0 5%;
+  text-decoration: none;
+  color: #5d4954;
+  font-size: larger;
+}
+.MenuOpciones a:hover {
+  color: #d08515;
+}
+.MenuOpciones nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 65%;
+  height: 2px;
+  background: black;
+  border-radius: 5px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
+}
+.MenuOpciones nav a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+.MenuOpciones p {
+  font-size: x-large;
+}
+/*Sub menu del header*/
+.menuCuentaH {
+  list-style: none;
+}
+.menuCuentaH > li > a {
+  display: block;
+}
+.menuCuentaV {
+  position: absolute;
+  display: none;
+  list-style: none;
+  width: 200px;
+  background-color: rgba(0, 0, 0, .1);
+}
+.menuCuentaV li:hover {
+    background-color: aliceblue;
+}
+.menuCuentaH li:hover .menuCuentaV {
+  display: block;
+}
+/*Contenido de informacion para la pantalla principal*/
+.port {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+}
+.port-cont {
+  width: 40%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: large;
+}
