@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>SPA ELCOMEDOR</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+    </style>
+    <link rel="stylesheet" href="static/css/style.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <header class="header">
+      <div class="MenuOpciones">
+        <p>EL COMEDOR</p>
+        <nav>
+          <a href="/Empleados" data-link>Empleados</a>
+          <a href="/Inventario" data-link>Inventario</a>
+          <a href="/Menu" data-link>Menu</a>
+          <a href="/Reportes" data-link>Reportes</a>
+        </nav>
+        <ul class="menuCuentaH">
+          <li>
+            <a href="#">Cuenta</a>
+            <ul class="menuCuentaV">
+              <li><a href="#">Crear cuenta</a></li>
+              <li><a href="#">Cerrar sesion</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <script type="module" src="static/js/index.js"></script>
+  </body>
+</html>
