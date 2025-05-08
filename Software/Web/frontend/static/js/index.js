@@ -1,4 +1,5 @@
 import Dashboard from "./views/Dashboard.js";
+import Inventario from "./views/Inventario.js";
 
 const navigateTo = url => {
     history.pushState(null, null, url);
@@ -8,10 +9,10 @@ const navigateTo = url => {
 const router = async () => {
     const routes = [
         { path: "/", view: Dashboard},
-        //{ path: "/Empleados", view: () => console.log("Viewing Empleados")},
-        //{ path: "/Inventario", view: () => console.log("Viewing Inventario")},
-        //{ path: "/Menu", view: () => console.log("Viewing Menu")},
-        //{ path: "/Reportes", view: () => console.log("Viewing Reportes")}
+        { path: "/Empleados", view: () => console.log("Viewing Empleados")},
+        { path: "/Inventario", view: Inventario},
+        { path: "/Menu", view: () => console.log("Viewing Menu")},
+        { path: "/Reportes", view: () => console.log("Viewing Reportes")}
     ];
 
     const potentialMatches = routes.map(route => {
@@ -33,6 +34,10 @@ const router = async () => {
     const view = new match.route.view();
 
     document.querySelector("#app").innerHTML = await view.getHtml();
+
+    if (view.afterRender) {
+        await view.afterRender(); 
+    }
 };
 
 window.addEventListener("popstate", router);
