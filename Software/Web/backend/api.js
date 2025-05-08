@@ -1,7 +1,6 @@
-// backend/api.js
 const express = require('express');
 const router = express.Router();
-const pool = require('./db');  // Importa la configuración de la base de datos
+const pool = require('./db');  // Importa base de datos
 
 //Evento cosulta de todos productos
 router.get('/productos', (req, res) => {
