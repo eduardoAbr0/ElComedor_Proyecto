@@ -8,6 +8,79 @@ body {
   background-color: #ffd791;
 }
 
+/*Login-Registro */
+.login-container * {
+  box-sizing: border-box;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container .login-registro {
+  display: flex;
+  gap: 30px;
+}
+
+.login-container .form-box {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.login-container .logo {
+  display: block;
+  margin: 0 auto 20px;
+  height: 60px;
+}
+
+.login-container h3 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.login-container label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.login-container input,
+.login-container select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-container button {
+  width: 100%;
+  background: #000;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container .toggle-link {
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+  color: #007BFF;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-container .hidden {
+  display: none;
+}
 /*Manipulacion para el header y sus respectivos elementos en este*/
 header {
   background: white;

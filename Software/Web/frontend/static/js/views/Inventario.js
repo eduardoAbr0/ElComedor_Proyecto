@@ -114,14 +114,14 @@ export default class extends AbstractView {
                 <td>${prod.proveedor}</td>
                 <td>
                     <button class="btn-edit" data-id="${prod.id}">✏️</button>
-                    <button class="btn-delete" data-id="${prod.id}">🗑️</button>
+                    <button class="btn-eliminar" data-id="${prod.id}">🗑️</button>
                 </td>
             `;
         cuerpoTabla.appendChild(fila);
       });
 
       // Evento para eliminar
-      document.querySelectorAll(".btn-delete").forEach((btn) => {
+      document.querySelectorAll(".btn-eliminar").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const id = e.target.getAttribute("data-id");
           const modal = document.getElementById("confirmModal");

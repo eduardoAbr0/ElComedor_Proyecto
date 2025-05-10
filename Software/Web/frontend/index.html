@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="static/css/style.css">
   </head>
   <body>
-    <div id="app"></div>
     <header class="header">
       <div class="MenuOpciones">
-        <p><a href="/" class="head-titulo" style="color: black;">EL COMEDOR</a></p>
+        <p><a href="/Dashboard" class="head-titulo" style="color: black;">EL COMEDOR</a></p>
         <nav>
           <a href="/Empleados" data-link>Empleados</a>
           <a href="/Inventario" data-link>Inventario</a>
@@ -23,13 +22,14 @@
           <li>
             <a href="#">Cuenta</a>
             <ul class="menuCuentaV">
-              <li><a href="#">Crear cuenta</a></li>
-              <li><a href="#">Cerrar sesion</a></li>
+              <li><a href="/Login">Cerrar sesion</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </header>
+    
+    <div id="app"></div>
 
     <script type="module" src="static/js/index.js"></script>
   </body>

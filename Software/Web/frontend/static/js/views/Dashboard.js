@@ -12,17 +12,7 @@ export default class extends AbstractView {
             <div class="port-cont">
                 <h1>BIENVENIDO</h1>
                 <h3>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis
-                turpis rhoncus, scelerisque purus ultrices, sollicitudin dolor.
-                Vestibulum elementum luctus diam tincidunt ultricies. Nulla varius,
-                est sed iaculis pharetra, enim risus fringilla arcu, ac consequat diam
-                nulla vel eros. Ut bibendum eros eros. Nunc posuere, ligula et congue
-                sodales, mauris turpis euismod turpis, in semper purus neque quis
-                justo. Nunc mollis pharetra augue sed pretium. Ut tempor feugiat magna
-                sed aliquam. Maecenas mi est, congue sed feugiat non, faucibus vitae
-                lectus. Integer tincidunt a dui aliquam suscipit. Ut tempor ligula
-                volutpat nibh cursus convallis. Curabitur consectetur ultrices
-                posuere.
+                El Comedor - Punto Gastronómico especializado en la elaboración de desayunos. Ofreciendo de igual forma un menú variado de comida típica regional mexicana, cortes selectos y platillos gourmet, brindando una experiencia culinaria única en un ambiente de restaurante-bar.
                 </h3>
             </div>
             </section>

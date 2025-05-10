@@ -1,6 +1,17 @@
 const express = require("express");
 const path = require("path");
+const session = require("express-session");
 const app = express();
+
+
+app.use(session({
+    secret: "olej", 
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 60 // 1 hora
+    }
+}));
 
 app.use(express.urlencoded({ extended: true }));  // manejar datos urlencoded
 app.use(express.json()); //manejar datos JSON
