@@ -2,6 +2,7 @@ import Dashboard from "./views/Dashboard.js";
 import Inventario from "./views/Inventario.js";
 import Login from "./views/Login.js";
 import Menu from "./views/Menu.js";
+import Empleado from "./views/Empleado.js";
 
 const navigateTo = (url) => {
   history.pushState(null, null, url);
@@ -14,7 +15,7 @@ const router = async () => {
     { path: "/", view: Login },
     { path: "/Dashboard", view: Dashboard },
     { path: "/Login", view: Login },
-    { path: "/Empleados", view: () => console.log("Viewing Empleados") },
+    { path: "/Empleados", view:  Empleado},
     { path: "/Inventario", view: Inventario },
     { path: "/Menu", view: Menu },
     { path: "/Reportes", view: () => console.log("Viewing Reportes") },

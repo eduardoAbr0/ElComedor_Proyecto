@@ -207,5 +207,84 @@ router.delete("/menus/:id", (req, res) => {
   });
 });
 
+//--------------------------- EMPLEADOS -----------------------------------
+
+// Obtener todos los empleados
+router.get("/empleados", (req, res) => {
+  pool.query("SELECT * FROM empleados", (err, results) => {
+    if (err) {
+      console.error("Error al obtener empleados:", err);
+      return res.status(500).send("Error al obtener empleados");
+    }
+    res.json(results);
+  });
+});
+
+// Insertar un nuevo empleado
+router.post("/insertar_empleado", (req, res) => {
+  console.log("Datos recibidos en backend:", req.body);
+  const { nombre, apellido, puesto, area, telefono } = req.body;
+
+  if (!nombre || !apellido || !puesto || !area || !telefono) {
+    return res.status(400).send("Todos los campos son requeridos");
+  }
+
+  const query = `INSERT INTO empleados (nombre, apellido, puesto, area, telefono)
+                 VALUES (?, ?, ?, ?, ?)`;
+
+  pool.query(query, [nombre, apellido, puesto, area, telefono], (err, results) => {
+    if (err) {
+      console.error("Error al insertar el empleado:", err);
+      return res.status(500).send("Error al insertar el empleado");
+    }
+    res.status(200).send("Empleado insertado correctamente");
+  });
+});
+
+// Modificar un empleado
+router.put("/editar_empleado/:id", (req, res) => {
+  const id = req.params.id;
+  const { nombre, apellido, puesto, area, telefono } = req.body;
+
+  if (!nombre || !apellido || !puesto || !area || !telefono) {
+    return res.status(400).send("Todos los campos son requeridos");
+  }
+
+  const query = `
+    UPDATE empleados
+    SET nombre = ?, apellido = ?, puesto = ?, area = ?, telefono = ?
+    WHERE id = ?
+  `;
+
+  pool.query(query, [nombre, apellido, puesto, area, telefono, id], (err, results) => {
+    if (err) {
+      console.error("Error al editar el empleado:", err);
+      return res.status(500).send("Error al editar el empleado");
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send("Empleado no encontrado");
+    }
+
+    res.status(200).send("Empleado actualizado correctamente");
+  });
+});
+
+// Eliminar un empleado
+router.delete("/eliminar_empleado/:id", (req, res) => {
+  const id = req.params.id;
+
+  const query = "DELETE FROM empleados WHERE id = ?";
+
+  pool.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Error al eliminar el empleado:", err);
+      return res.status(500).send("Error al eliminar el empleado");
+    }
+    res.status(200).send("Empleado eliminado correctamente");
+  });
+});
+
+
 
 module.exports = router;
