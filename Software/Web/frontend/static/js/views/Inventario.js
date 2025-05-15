@@ -41,7 +41,7 @@ export default class extends AbstractView {
                     <!-- Modal de Confirmación -->
                     <div id="confirmModal" class="modal">
                         <div class="modal-content">
-                            <p>¿Seguro que deseas eliminar este producto?</p>
+                            <p>¿Está seguro de su acción?</p>
                             <button id="confirmYes">Sí</button>
                             <button id="confirmNo">No</button>
                         </div>
@@ -107,18 +107,74 @@ export default class extends AbstractView {
       productos.forEach((prod) => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
-                <td>${prod.nombre}</td>
-                <td>${prod.descripcion}</td>
-                <td>${prod.precio}</td>
-                <td>${prod.cantidad}</td>
-                <td>${prod.proveedor}</td>
-                <td>
+                <td><input type="text" class="editable" value="${prod.nombre}" data-id="${prod.id}" data-field="nombre"></td>
+                <td><input type="text" class="editable" value="${prod.descripcion}" data-id="${prod.id}" data-field="descripcion"></td>
+                <td><input type="text" class="editable" value="${prod.precio}" data-id="${prod.id}" data-field="precio"></td>
+                <td><input type="text" class="editable" value="${prod.cantidad}" data-id="${prod.id}" data-field="cantidad"></td>
+                <td><input type="text" class="editable" value="${prod.proveedor}" data-id="${prod.id}" data-field="proveedor"></td>
+
+                <div class="botones_registros">
                     <button class="btn-edit" data-id="${prod.id}">✏️</button>
                     <button class="btn-eliminar" data-id="${prod.id}">🗑️</button>
+                </div>
                 </td>
             `;
         cuerpoTabla.appendChild(fila);
       });
+
+      // Evento para modificar
+      document.querySelectorAll(".btn-edit").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          const id = e.target.getAttribute("data-id");
+
+          // Buscar todos los inputs relacionados con el id
+          const inputs = document.querySelectorAll(`input[data-id="${id}"]`);
+
+          const producto= {};
+
+          inputs.forEach((input) => {
+            const campo = input.getAttribute("data-field");
+            const valor = input.value;
+            producto[campo] = valor;
+          });
+
+          const modal = document.getElementById("confirmModal");
+          modal.style.display = "flex";
+          confirmYes.replaceWith(confirmYes.cloneNode(true));
+          confirmNo.replaceWith(confirmNo.cloneNode(true));
+
+          document
+            .getElementById("confirmYes")
+            .addEventListener("click", () => editarProducto(id, producto));
+          document
+            .getElementById("confirmNo")
+            .addEventListener("click", cerrarModal);
+        });
+      });
+
+      // Función para editar producto
+      async function editarProducto(id, datos) {
+        try {
+          const res = await fetch(`/api/editar_producto/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datos),
+          });
+
+          if (res.ok) {
+            alert("Producto actualizado correctamente");
+            cerrarModal();
+          } else {
+            console.log(res.status);
+            alert("Error al actualizar el producto");
+          }
+        } catch (err) {
+          console.error("Error al actualizar:", err);
+          alert("Ocurrió un error al intentar actualizar.");
+        }
+      }
 
       // Evento para eliminar
       document.querySelectorAll(".btn-eliminar").forEach((btn) => {
@@ -126,6 +182,8 @@ export default class extends AbstractView {
           const id = e.target.getAttribute("data-id");
           const modal = document.getElementById("confirmModal");
           modal.style.display = "flex";
+          confirmYes.replaceWith(confirmYes.cloneNode(true));
+          confirmNo.replaceWith(confirmNo.cloneNode(true));
 
           document
             .getElementById("confirmYes")
@@ -135,22 +193,8 @@ export default class extends AbstractView {
             .addEventListener("click", cerrarModal);
         });
       });
-
-      // Eventos para editar
     } catch (err) {
       console.error("Error al cargar productos:", err);
-    }
-
-    // Función para mostrar el modal
-    function mostrarModal() {
-      const modal = document.getElementById("confirmModal");
-      modal.style.display = "flex"; // Mostrar el modal
-    }
-
-    // Función para cerrar el modal
-    function cerrarModal() {
-      const modal = document.getElementById("confirmModal");
-      modal.style.display = "none"; // Ocultar el modal
     }
 
     // Función para eliminar el producto
@@ -170,6 +214,18 @@ export default class extends AbstractView {
         console.error("Error al eliminar:", err);
         alert("Hubo un problema al eliminar el producto.");
       }
+    }
+
+    // Función para mostrar el modal
+    function mostrarModal() {
+      const modal = document.getElementById("confirmModal");
+      modal.style.display = "flex"; // Mostrar el modal
+    }
+
+    // Función para cerrar el modal
+    function cerrarModal() {
+      const modal = document.getElementById("confirmModal");
+      modal.style.display = "none"; // Ocultar el modal
     }
   }
 }

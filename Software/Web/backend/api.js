@@ -44,56 +44,89 @@ router.post("/insertar_empleado", (req, res) => {
   });
 });
 
+//--------------------PRODUCTOS-------------------------
+
 //Evento cosulta de todos productos
-router.get("/productos", (req, res) => {
-  pool.query("SELECT * FROM productos", (err, results) => {
-    if (err) {
-      console.error("Error al obtener productos:", err);
-      return res.status(500).send("Error al obtener productos");
-    }
-    res.json(results);
+  router.get("/productos", (req, res) => {
+    pool.query("SELECT * FROM productos", (err, results) => {
+      if (err) {
+        console.error("Error al obtener productos:", err);
+        return res.status(500).send("Error al obtener productos");
+      }
+      res.json(results);
+    });
   });
-});
 
 // Evento agregar producto
-router.post("/insertar_producto", (req, res) => {
+  router.post("/insertar_producto", (req, res) => {
+    const { nombre, descripcion, precio, cantidad, proveedor } = req.body;
+
+    if (!nombre || !descripcion || !precio || !cantidad || !proveedor) {
+      return res.status(400).send("Todos los campos son requeridos");
+    }
+
+    // Consulta SQL para insertar el nuevo producto
+    const query = `INSERT INTO productos (nombre, descripcion, precio, cantidad, proveedor) 
+                  VALUES (?, ?, ?, ?, ?)`;
+
+    pool.query(
+      query,
+      [nombre, descripcion, precio, cantidad, proveedor],
+      (err, results) => {
+        if (err) {
+          console.error("Error al insertar el producto:", err);
+          return res.status(500).send("Error al insertar el producto");
+        }
+        res.status(200).send("Producto insertado correctamente");
+      }
+    );
+  });
+
+//Modificar un producto
+router.put("/editar_producto/:id", (req, res) => {
+  const id = req.params.id;
   const { nombre, descripcion, precio, cantidad, proveedor } = req.body;
 
   if (!nombre || !descripcion || !precio || !cantidad || !proveedor) {
     return res.status(400).send("Todos los campos son requeridos");
   }
 
-  // Consulta SQL para insertar el nuevo producto
-  const query = `INSERT INTO productos (nombre, descripcion, precio, cantidad, proveedor) 
-                 VALUES (?, ?, ?, ?, ?)`;
+  const query = `
+    UPDATE productos 
+    SET nombre = ?, descripcion = ?, precio = ?, cantidad = ?, proveedor = ?
+    WHERE id = ?
+  `;
 
-  pool.query(
-    query,
-    [nombre, descripcion, precio, cantidad, proveedor],
+  pool.query(query,[nombre, descripcion, precio, cantidad, proveedor, id],
     (err, results) => {
       if (err) {
-        console.error("Error al insertar el producto:", err);
-        return res.status(500).send("Error al insertar el producto");
+        console.error("Error al editar el producto:", err);
+        return res.status(500).send("Error al editar el producto");
       }
-      res.status(200).send("Producto insertado correctamente");
+
+      if (results.affectedRows === 0) {
+        return res.status(404).send("Producto no encontrado");
+      }
+
+      res.status(200).send("Producto actualizado correctamente");
     }
   );
 });
 
 // Eliminar producto por ID
-router.delete("/eliminar_producto/:id", (req, res) => {
-  const id = req.params.id;
+  router.delete("/eliminar_producto/:id", (req, res) => {
+    const id = req.params.id;
 
-  // Consulta SQL para eliminar producto
-  const query = "DELETE FROM productos WHERE id = ?";
+    // Consulta SQL para eliminar producto
+    const query = "DELETE FROM productos WHERE id = ?";
 
-  pool.query(query, [id], (err, results) => {
-    if (err) {
-      console.error("Error al eliminar el producto:", err);
-      return res.status(500).send("Error al eliminar el producto");
-    }
-    res.status(200).send("Producto eliminado correctamente");
+    pool.query(query, [id], (err, results) => {
+      if (err) {
+        console.error("Error al eliminar el producto:", err);
+        return res.status(500).send("Error al eliminar el producto");
+      }
+      res.status(200).send("Producto eliminado correctamente");
+    });
   });
-});
 
 module.exports = router;
