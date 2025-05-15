@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 const pool = require("./db"); // Importa base de datos
 
+//-------------------- LOGIN - REGISTRO --------------------
+
 //Evento log-reg
 router.post("/login", (req, res) => {
   const { usuario, contrasena } = req.body;
 
-  const query = "SELECT * FROM empleados WHERE usuario=? && contrasena=?";
+  const query = "SELECT * FROM empleados_lgr WHERE usuario=? && contrasena=?";
 
   pool.query(query, [usuario, contrasena], (err, results) => {
     if (err) {
@@ -32,7 +34,7 @@ router.post("/insertar_empleado", (req, res) => {
   }
 
   // Consulta SQL para insertar empleado
-  const query = `INSERT INTO empleados (usuario, contrasena, tipo) 
+  const query = `INSERT INTO empleados_lgr (usuario, contrasena, tipo) 
                  VALUES (?, ?, ?)`;
 
   pool.query(query, [usuario, contrasena, tipo], (err, results) => {
@@ -128,5 +130,82 @@ router.put("/editar_producto/:id", (req, res) => {
       res.status(200).send("Producto eliminado correctamente");
     });
   });
+
+//--------------------MENUS-------------------------
+
+// Obtener todos los menús
+router.get("/menus", (req, res) => {
+  pool.query("SELECT * FROM Menus", (err, results) => {
+    if (err) {
+      console.error("Error al obtener menús:", err);
+      return res.status(500).send("Error al obtener menús");
+    }
+    res.json(results);
+  });
+});
+
+// Insertar un nuevo menú
+router.post("/menus", (req, res) => {
+  const { nombre, descripcion, categoria, precio } = req.body;
+
+  if (!nombre || !descripcion || !categoria || !precio) {
+    return res.status(400).send("Todos los campos son requeridos");
+  }
+
+  const query = `INSERT INTO Menus (Nombre, Descripcion, Categoria, Precio) VALUES (?, ?, ?, ?)`;
+
+  pool.query(query, [nombre, descripcion, categoria, precio], (err, results) => {
+    if (err) {
+      console.error("Error al insertar el menú:", err);
+      return res.status(500).send("Error al insertar el menú");
+    }
+    res.status(200).send("Menú insertado correctamente");
+  });
+});
+
+// Modificar un menu
+router.put("/menus/:id", (req, res) => {
+  const id = req.params.id;
+  const { nombre, descripcion, categoria, precio } = req.body;
+
+  if (!nombre || !descripcion || !categoria || !precio) {
+    return res.status(400).send("Todos los campos son requeridos");
+  }
+
+  const query = `
+    UPDATE Menus 
+    SET Nombre = ?, Descripcion = ?, Categoria = ?, Precio = ?
+    WHERE id = ?
+  `;
+
+  pool.query(query, [nombre, descripcion, categoria, precio, id], (err, results) => {
+    if (err) {
+      console.error("Error al editar el menú:", err);
+      return res.status(500).send("Error al editar el menú");
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send("Menú no encontrado");
+    }
+
+    res.status(200).send("Menú actualizado correctamente");
+  });
+});
+
+// Eliminar menú 
+router.delete("/menus/:id", (req, res) => {
+  const id = req.params.id;
+
+  const query = "DELETE FROM Menus WHERE id = ?";
+
+  pool.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Error al eliminar el menú:", err);
+      return res.status(500).send("Error al eliminar el menú");
+    }
+    res.status(200).send("Menú eliminado correctamente");
+  });
+});
+
 
 module.exports = router;

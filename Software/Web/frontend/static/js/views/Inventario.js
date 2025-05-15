@@ -16,13 +16,13 @@ export default class extends AbstractView {
 
                     <table class="custom-table">
                         <thead>
-                        <tr>
+                            <tr>
                             <th>NOMBRE</th>
                             <th>DESCRIPCIÓN</th>
                             <th>PRECIO</th>
                             <th>CANTIDAD</th>
                             <th>PROVEEDOR</th>
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody id="tabla-cuerpo">
                         <tr>
